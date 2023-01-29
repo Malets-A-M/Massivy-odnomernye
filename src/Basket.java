@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Basket {
+public class Basket implements Serializable {
     private String[] products;
     private int[] prices;
     private int[] amount;
@@ -14,6 +14,7 @@ public class Basket {
     private String[] parts;
     Scanner scanner = new Scanner(System.in);
     File basket = new File("basket.txt");
+    File basketBin = new File("basket.bin");
 
 
     public Basket(int[] prices, String[] products) {
@@ -22,11 +23,10 @@ public class Basket {
         this.amount = new int[products.length];
     }
     public void addToCart(){
-        if (basket.exists()){
+        if (basketBin.exists()){
             System.out.println("Корзина уже существует");
-//            loadFromTxtFile(basket);
             printCart();
-            setAmount(loadFromTxtFile(basket).getAmount());
+            setAmount(loadFromBinFile(basketBin).getAmount());
             printCart();
         } else {
             System.out.println("Новая корзина");
@@ -36,7 +36,7 @@ public class Basket {
             setInput(scanner.nextLine());
 
             if (getInput().equals("end")) {
-                saveTxt(basket);
+                saveBin(basketBin);
                 break;
             }
         setParts(input.split(" "));
@@ -82,6 +82,19 @@ public class Basket {
             throw new RuntimeException(e);
         }
     }
+
+    public void saveBin (File file){
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file, false))) {
+            Basket saveBasket = new Basket(getPrices(), getProducts());
+            saveBasket.setAmount(getAmount());
+            objectOutputStream.writeObject(saveBasket);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Basket loadFromTxtFile(File textFile){
         try (InputStreamReader inputStream = new InputStreamReader(new FileInputStream(textFile))) {
             int byteCod = 0;
@@ -120,6 +133,18 @@ public class Basket {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Basket loadFromBinFile(File file){
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
+            return  (Basket) objectInputStream.readObject();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
