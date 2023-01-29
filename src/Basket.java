@@ -12,7 +12,7 @@ public class Basket implements Serializable {
     private int productCount;
     private String input;
     private String[] parts;
-    Scanner scanner = new Scanner(System.in);
+    transient Scanner  scanner = new Scanner(System.in);
     File basket = new File("basket.txt");
     File basketBin = new File("basket.bin");
 
