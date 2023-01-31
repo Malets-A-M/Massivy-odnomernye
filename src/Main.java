@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Products_Prices productsPrices = new Products_Prices();
+        ProductsAndPrices productsPrices = new ProductsAndPrices();
         String[] products = productsPrices.getProducts();
         int[] prices = productsPrices.getPrices();
         Basket basket = new Basket(prices,products);
