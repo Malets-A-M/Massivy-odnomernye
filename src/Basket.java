@@ -12,9 +12,9 @@ public class Basket implements Serializable {
     private int productCount;
     private String input;
     private String[] parts;
-    transient Scanner  scanner = new Scanner(System.in);
-    File basket = new File("basket.txt");
-    File basketBin = new File("basket.bin");
+    private File basket = new File("basket.txt");
+    private transient Scanner  scanner = new Scanner(System.in);
+    private File basketBin = new File("basket.bin");
 
 
     public Basket(int[] prices, String[] products) {
@@ -103,7 +103,7 @@ public class Basket implements Serializable {
                 stringBuilder.append(Character.toString(byteCod));
             }
 
-            Products_Prices productsPrices = new Products_Prices();
+            ProductsAndPrices productsPrices = new ProductsAndPrices();
             String[] products = productsPrices.getProducts();
             int[] prices = productsPrices.getPrices();
             int[] amount = new int[products.length];
@@ -112,15 +112,12 @@ public class Basket implements Serializable {
             String [] parts;
             String [] partsBasket;
             parts = stringBuilder.toString().split("\n");
-//            System.out.println(Arrays.toString(parts));
             int i = 0;
             int i1 = 0;
             while (i < parts.length){
                 partsBasket = parts[i].split(" ");
-//                System.out.println(Arrays.toString(partsBasket));
                 i1 = 0;
                 while (i1 < products.length){
-//                    System.out.println(products[i1] + " " + partsBasket[0] + " " + partsBasket[1]);
                     if (products[i1].equals(partsBasket[0])){
                         amount[i1] += Integer.parseInt(partsBasket[1]);
                     }
@@ -152,35 +149,27 @@ public class Basket implements Serializable {
     public int[] getPrices() {
         return prices;
     }
-
     public int[] getAmount() {
         return amount;
     }
-
     public String[] getProducts() {
         return products;
     }
-
     public String getInput() {
         return input;
     }
-
     public void setAmount(int[] amount) {
         this.amount = amount;
     }
-
     public void setProductNum(int productNum) {
         this.productNum = productNum;
     }
-
     public void setProductCount(int productCount) {
         this.productCount = productCount;
     }
-
     public void setInput(String input) {
         this.input = input;
     }
-
     public void setParts(String[] parts) {
         this.parts = parts;
     }

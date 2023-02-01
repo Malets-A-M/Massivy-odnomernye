@@ -1,4 +1,4 @@
-public class Products_Prices {
+public class ProductsAndPrices {
     private String[] products = {"Хлеб", "Яйца", "Молоко", "Картофель", "Орехи"};
     private int[] prices = {100, 200, 250, 185, 500};
 
